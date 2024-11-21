@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_container
+    ports:
+      - "5432:5432"  # Exposes PostgreSQL on the default port
+    environment:
+      POSTGRES_PASSWORD: root  # Set the password for the default 'postgres' user
+      POSTGRES_DB: exchange 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist PostgreSQL data
+
+volumes:
+  postgres_data:
+    driver: local

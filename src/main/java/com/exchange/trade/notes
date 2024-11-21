@@ -1,0 +1,39 @@
+models - 
+
+User - 
+id, name, password, email, status, createdAt, modifiedAt, roles.
+
+Wallet - 
+id, userId, coin, status, balance, createdAt, modifiedAt
+
+Coin
+id, name, code, status, tradeConfig, createdAt, modifiedAt
+
+Trade - (user point of view)
+id, userId, type(buy/sell), coinA , coinB, coinAValue, coinBValue status (success/failed),
+createdAt, modifiedAt
+
+1, 22, buy, BTC, INR, 0.5, 40000, 1, somedate, somedate
+
+----------------------------------------
+This above record should be read as 
+User bought 0.5 BTC with 40,000 INR.
+User sold 0.3 BTC and received 30,000 INR.
+------------------------------------------
+
+curl -X POST "http://localhost:8080/trades" \
+-H "Content-Type: application/json" \
+-d '{
+    "userId": 2,
+    "coinACode": "BTC",
+    "coinBCode": "USDT",
+    "coinAValue": "0.005",
+    "coinBValue": "2500",
+    "price": "500000",
+    "tradeType": "BUY"
+}'
+
+PESSIMISTIC_READ causing deadlock situation as its a shared lock.
+For frequent updates, this lock needs to be avoided especially where there is a high contention.
+
+In my case, where there is a high contention for locking admin wallet, its leading to deadlock.

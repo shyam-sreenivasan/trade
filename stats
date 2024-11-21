@@ -1,0 +1,49 @@
+1. Wihtout retries , there was about 50% failed trades taking around 40 seconds to complete for 100 requests.
+
+2. With retries = 3
+    Runs
+    -----
+    1. Summary:
+    Successful Trades: 87
+    Failed Trades: 13
+    Time taken: 6.02 seconds
+
+    2. Summary:
+    Successful Trades: 90
+    Failed Trades: 10
+    Time taken: 6.02 seconds
+
+After this it started performing worse, due to some changes in wallet retries and ordering.
+
+Key fix was changing from pessimistic_read to pessimistic_write. (3/25 trades only went through)
+lot of deadlock failures. Time around 20 secs for 25 requests.
+
+3. With pessimistic_write. reordering of obtaining wallet, @Retryable.
+Runs:
+------
+    1. Summary:
+    Successful Trades: 25
+    Failed Trades: 0
+    Time taken: 0.44 seconds
+
+    2.Summary:
+    Successful Trades: 98
+    Failed Trades: 2 (only due to insufficient balance.)
+    Time taken: 0.99 seconds
+
+    3.Summary:
+    Successful Trades: 978
+    Failed Trades: 22
+    Time taken: 4.89 seconds
+
+    4.Summary: (processed 45 trades / sec)
+    Successful Trades: 9864
+    Failed Trades: 136
+    Time taken: 22.57 seconds
+
+    5. Summary: (processed 704 trades / sec)
+    Successful Trades: 97864
+    Failed Trades: 2136
+    Time taken: 142.62 seconds
+
+

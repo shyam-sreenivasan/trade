@@ -11,7 +11,12 @@ services:
       POSTGRES_DB: exchange 
     volumes:
       - postgres_data:/var/lib/postgresql/data  # Persist PostgreSQL data
-
+    deploy:
+      resources:
+        limits:
+          cpus: "4.0"       # Limit to 4 CPU core
+          memory: "4G"    # Limit to 1GB of RAM
+       
   springboot-app:
     depends_on: 
       - postgres
@@ -24,6 +29,11 @@ services:
       - "8080:8080" # Map container's port 8080 to the host's port 8080
     restart: "no" # Automatically restart the container if it stops
     entrypoint: ["sh", "-c", "java -jar target/*.jar && tail -f /dev/null"]
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"       # Limit to 1 CPU core
+          memory: "1G"    # Limit to 512 MB of RAM
 volumes:
   postgres_data:
     driver: local

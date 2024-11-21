@@ -69,7 +69,7 @@ def main():
     # Use a ThreadPoolExecutor to send up to 5 parallel requests at a time
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         # Generate 100 random trades and submit them as tasks
-        futures = [executor.submit(post_trade, generate_random_trade()) for _ in range(100000)]
+        futures = [executor.submit(post_trade, generate_random_trade()) for _ in range(100)]
 
         # Wait for all futures to complete
         concurrent.futures.wait(futures)

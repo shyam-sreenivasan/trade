@@ -2,7 +2,6 @@
 DROP SCHEMA exchange CASCADE;
 CREATE SCHEMA exchange;
 -- Connect to the newly created database (execute this in psql after the script, if needed)
--- \c exchange
 
 -- Create the "user" table
 CREATE TABLE exchange."user" (

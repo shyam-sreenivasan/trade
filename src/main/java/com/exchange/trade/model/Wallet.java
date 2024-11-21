@@ -3,6 +3,8 @@ package com.exchange.trade.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,10 +28,12 @@ public class Wallet {
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
+    @JsonBackReference
     User user;
 
     @ManyToOne(fetch = FetchType.LAZY)  // LAZY fetch for the associated coin
     @JoinColumn(name = "coin_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
     private Coin coin;
 
     int status;

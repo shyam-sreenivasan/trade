@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_container
+    ports:
+      - "5432:5432"  # Exposes PostgreSQL on the default port
+    environment:
+      POSTGRES_PASSWORD: root  # Set the password for the default 'postgres' user
+      POSTGRES_DB: exchange 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist PostgreSQL data
+
+  springboot-app:
+    depends_on: 
+      - postgres
+    image: eclipse-temurin:21-jdk
+    container_name: springboot-app
+    working_dir: /app
+    volumes:
+      - .:/app # Host directory mounted to the container
+    ports:
+      - "8080:8080" # Map container's port 8080 to the host's port 8080
+    restart: "no" # Automatically restart the container if it stops
+    entrypoint: ["sh", "-c", "java -jar target/*.jar && tail -f /dev/null"]
+volumes:
+  postgres_data:
+    driver: local
